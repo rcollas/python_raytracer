@@ -7,14 +7,6 @@ class Vec3:
         self.y = y
         self.z = z
 
-    def __str__(self):
-        return "x:{0}, y:{1}, z:{2}".format(self.x, self.y, self.z)
-
-    def __truediv__(self, v):
-        if isinstance(v, Vec3):
-            return Vec3(self.x / v.x, self.y / v.y, self.z / v.z)
-        return Vec3(self.x / v, self.y / v, self.z / v)
-
     def norm(self):
         return np.sqrt(self.x ** 2 + self.y ** 2 + self.z ** 2)
 
@@ -34,3 +26,19 @@ class Vec3:
         y = a.x * b.x - a.x * b.z
         z = a.z * b.y - a.y * b.x
         return Vec3(x, y, z)
+
+    def __str__(self):
+        return "x:{0}, y:{1}, z:{2}".format(self.x, self.y, self.z)
+
+    def __truediv__(self, v):
+        if isinstance(v, Vec3):
+            return Vec3(self.x / v.x, self.y / v.y, self.z / v.z)
+        return Vec3(self.x / v, self.y / v, self.z / v)
+
+    def __add__(self, other):
+        return Vec3(self.x + other.x, self.y + other.y, self.z + other.z)
+
+    def __sub__(self, other):
+        return Vec3(self.x - other.x, self.y - other.y, self.z - other.z)
+
+

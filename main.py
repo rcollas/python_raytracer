@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from Vec3 import Vec3
+from Matrix44 import Matrix44
 
 width = 300
 height = 300
@@ -15,6 +16,13 @@ vector = Vec3.normalize(vector)
 print(vector)
 print(vector.norm())
 print(Vec3.dot(vector, Vec3(200, 0, 45)))
+print(Vec3(200, 0, 1) + Vec3(0, -23, 100))
+
+matrix = Matrix44()
+
+print(matrix)
+print(matrix[0])
+print(matrix[0][0])
 
 # for x in range(width):
 #     for y in range(height):
