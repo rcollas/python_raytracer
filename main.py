@@ -23,6 +23,13 @@ matrix = Matrix44()
 print(matrix)
 print(matrix[0])
 print(matrix[0][0])
+matrix += Matrix44()
+matrix *= 3
+print(matrix)
+matrix[0] = [-1, 2, 0.324, 10]
+print(Matrix44.mul_vec_matrix(Vec3(10, 4, -10), matrix))
+print(matrix)
+print(matrix.transpose())
 
 # for x in range(width):
 #     for y in range(height):

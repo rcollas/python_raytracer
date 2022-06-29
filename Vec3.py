@@ -40,5 +40,3 @@ class Vec3:
 
     def __sub__(self, other):
         return Vec3(self.x - other.x, self.y - other.y, self.z - other.z)
-
-

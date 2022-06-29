@@ -1,7 +1,6 @@
-import re
-
 import numpy as np
 import pandas as pd
+from Vec3 import Vec3
 
 
 class Matrix44:
@@ -19,11 +18,40 @@ class Matrix44:
         self._m[key] = value
 
     def __mul__(self, other):
+        return self._m * other._m
+
+    def __add__(self, other):
+        return self._m + other._m
+
+    def __sub__(self, other):
+        return self._m - other._m
+
+    def __truediv__(self, other):
+        return self._m / other._m
+
+    @staticmethod
+    def mul_vec_matrix(v, m):
+        x = v.x * m[0][0] + v.y * m[1][0] + v.z * m[2][0] + m[3][0]
+        y = v.x * m[0][1] + v.y * m[1][1] + v.z * m[2][1] + m[3][1]
+        z = v.x * m[0][2] + v.y * m[1][2] + v.z * m[2][2] + m[3][2]
+        w = v.x * m[0][3] + v.y * m[1][3] + v.z * m[2][3] + m[3][3]
+        if w != 1 and w != 0:
+            x = x / w
+            y = y / w
+            z = z / w
+        return Vec3(x, y, z)
+
+    @staticmethod
+    def mul_dir_matrix(v, m):
+        x = v.x * m[0][0] + v.y * m[1][0] + v.z * m[2][0]
+        y = v.x * m[0][1] + v.y * m[1][1] + v.z * m[2][1]
+        z = v.x * m[0][2] + v.y * m[1][2] + v.z * m[2][2]
+        return Vec3(x, y, z)
+
+    @staticmethod
+    def transpose(self):
         m = Matrix44()
-        for x in range(4):
-            for y in range(4):
-                m[x][y] = self._m[x][0] * other[0][y] + \
-                          self._m[x][1] * other[1][y] + \
-                          self._m[x][2] * other[2][y] + \
-                          self._m[x][3] * other[3][y]
+        for i in range(4):
+            for j in range(4):
+                m[i][j] = self[j][i]
         return m
