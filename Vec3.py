@@ -10,15 +10,17 @@ class Vec3:
     def norm(self):
         return np.sqrt(self.x ** 2 + self.y ** 2 + self.z ** 2)
 
-    @staticmethod
-    def normalize(v):
-        return v / v.norm()
+    def normalize(self):
+        norm_v = self / self.norm()
+        self.x = norm_v.x
+        self.y = norm_v.y
+        self.z = norm_v.z
 
-    @staticmethod
-    def dot(a, b):
-        return a.x * b.x + \
-               a.y * b.y + \
-               a.z * b.z
+    def dot(self, b):
+        dot_vec = self.x * b.x + \
+                  self.y * b.y +\
+                  self.z * b.z
+        return dot_vec
 
     @staticmethod
     def cross(a, b):

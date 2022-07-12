@@ -1,51 +1,42 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from Vec3 import Vec3
+from Sphere import Sphere
 from Matrix44 import Matrix44
 
-width = 300
-height = 300
-
-
+width = 640
+inv_width = 1 / width
+height = 480
+inv_height = 1 / height
+fov = 30
+aspect_ratio = width / height
+angle = np.tan(np.pi * 0.5 * fov / 180)
 image = np.zeros((height, width, 3))
+sphere = Sphere(Vec3(0, 1, -30), 5, Vec3(1, 0, 0))
 
-vector = Vec3(10, 255, 0)
-print(vector.norm())
-print(vector)
-vector = Vec3.normalize(vector)
-print(vector)
-print(vector.norm())
-print(Vec3.dot(vector, Vec3(200, 0, 45)))
-print(Vec3(200, 0, 1) + Vec3(0, -23, 100))
 
-matrix = Matrix44()
+def trace(ray_origin,
+          ray_direction,
+          spheres):
+    if spheres.intersect(ray_origin, ray_direction, np.inf, np.inf):
+        return (spheres.surface_color.x,
+                spheres.surface_color.y,
+                spheres.surface_color.z)
+    return 1, 1, 1
 
-print(matrix)
-print(matrix[0])
-print(matrix[0][0])
-matrix += Matrix44()
-matrix *= 3
-print(matrix)
-matrix[0] = [-1, 2, 0.324, 10]
-print(Matrix44.mul_vec_matrix(Vec3(10, 4, -10), matrix))
-print(matrix)
-print(matrix.transpose())
-print(Vec3())
-print(Matrix44())
-init_matrix = Matrix44.init_with_values(0.707107, 0, -0.707107, 0,
-                                        -0.331295, 0.883452, -0.331295, 0,
-                                        0.624695, 0.468521, 0.624695, 0,
-                                        4.000574, 3.00043, 4.000574, 1)
-#print(Matrix44().invert())
-print(init_matrix)
-print("\n")
-print("init_matrix.invert()")
-print(init_matrix.invert())
 
-# for x in range(width):
-#     for y in range(height):
-#         color = np.zeros(3)
-#         color = (0.5 * (x / height), 0.2 * (x / height), 0.7)
-#         image[x, y] = np.clip(color, 0, 1)
+def render():
+    for y in range(height):
+        for x in range(width):
+            xx = (2 * ((x + 0.5) * inv_width) - 1) * angle * aspect_ratio
+            yy = (1 - 2 * ((y + 0.5) * inv_height)) * angle
+            ray_dir = Vec3(xx, yy, -1)
+            ray_dir.normalize()
+            image[y][x] = trace(Vec3(0, 0, 0), ray_dir, sphere)
+
+
+render()
+
+
 
 plt.imsave('image.png', image)
