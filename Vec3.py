@@ -29,6 +29,15 @@ class Vec3:
         z = a.z * b.y - a.y * b.x
         return Vec3(x, y, z)
 
+    @staticmethod
+    def clamp(x):
+        return max(0, min(x, 255))
+
+    def to_hex(self):
+        return "#{0:02x}{1:02x}{2:02x}".format(self.clamp(self.x),
+                                               self.clamp(self.y),
+                                               self.clamp(self.z))
+
     def __str__(self):
         return "x:{0}, y:{1}, z:{2}".format(self.x, self.y, self.z)
 
